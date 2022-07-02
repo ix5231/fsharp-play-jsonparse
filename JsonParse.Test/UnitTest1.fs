@@ -2,6 +2,8 @@ namespace JsonParse.Test
 
 open NUnit.Framework
 open FsUnit
+open FsUnitTyped
+open JsonParse.JsonParser
 
 [<TestFixture>]
 module MyTests =
@@ -11,4 +13,7 @@ module MyTests =
         FSharpCustomMessageFormatter() |> ignore
 
     [<Test>]
-    let ``Simple test`` () = JsonParse.Say.hello "World" |> should equal "Hello World" 
+    let ``Single string field`` () =
+        let actual = Ok (Object (Map [("field", String "Hello")]))
+        let parsed = tryParseStr "{\"field\":\"Hello\"}"
+        parsed |> shouldEqual actual

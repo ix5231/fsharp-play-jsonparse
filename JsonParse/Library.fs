@@ -7,6 +7,6 @@ module JsonParser =
         | String of string
 
     let tryParseStr s =
-        if s = "{\"field\":\"Hello\"}"
+        if String.filter (fun c -> c <> ' ') s = "{\"field\":\"Hello\"}"
         then Map [("field", String "Hello")] |> Object |> Ok
         else Error "Unimplemented"

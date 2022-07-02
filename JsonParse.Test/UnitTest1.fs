@@ -13,7 +13,10 @@ module MyTests =
         FSharpCustomMessageFormatter() |> ignore
 
     [<Test>]
-    let ``Single string field`` () =
+    [<TestCase("{\"field\":\"Hello\"}")>]
+    [<TestCase("{ \"field\":\"Hello\" }")>]
+    [<TestCase("{ \"field\":    \"Hello\" }")>]
+    let ``Single string field regardless spaces`` (case) =
         let actual = Ok (Object (Map [("field", String "Hello")]))
-        let parsed = tryParseStr "{\"field\":\"Hello\"}"
+        let parsed = tryParseStr case
         parsed |> shouldEqual actual

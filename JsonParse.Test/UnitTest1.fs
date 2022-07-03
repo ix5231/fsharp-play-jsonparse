@@ -22,3 +22,9 @@ module MyTests =
         let actual = Ok (Object (Map [("field", String "Hello")]))
         let parsed = tryParseStr case
         parsed |> shouldEqual actual
+
+    [<TestCase("{ \"name\": \"hakumei\" }")>]
+    let ``Single string field`` (case) =
+        let actual = Ok (Object (Map [("name", String "hakumei")]))
+        let parsed = tryParseStr case
+        parsed |> shouldEqual actual

@@ -1,5 +1,7 @@
 ﻿namespace JsonParse
 
+open System.Text.RegularExpressions
+
 module JsonParser =
 
     type JsonType =
@@ -12,6 +14,8 @@ module JsonParser =
         String.filter (fun c -> Array.contains c ws |> not)
 
     let tryParseStr s =
-        if eliminateWs s = "{\"field\":\"Hello\"}"
-        then Map [("field", String "Hello")] |> Object |> Ok
-        else Error "Unimplemented"
+        let toParse = eliminateWs s
+        let parsed = Regex.Match(toParse, "{\"(.*)\":\"(.*)\"}")
+        if parsed.Groups.Count <> 3
+        then Error "Error"
+        else Map [(parsed.Groups[1].Value, String parsed.Groups[2].Value)] |> Object |> Ok
